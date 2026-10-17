@@ -1,0 +1,13 @@
+{
+  "name": "staffside-local",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A local-first staff onboarding and people-ops workspace powered by Ollama",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

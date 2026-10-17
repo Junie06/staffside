@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f8fc">
+  <title>Staffside — calm, local-first people ops</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="/" aria-label="Staffside home">
+        <span class="brand-mark" aria-hidden="true">S</span>
+        <span>staffside<span class="brand-period">.</span></span>
+      </a>
+      <div class="workspace-label">YOUR WORKSPACE</div>
+      <nav class="navigation" aria-label="Main navigation">
+        <button class="nav-item active" data-view="overview"><span class="nav-icon">◫</span> Overview</button>
+        <button class="nav-item" data-view="people"><span class="nav-icon">♙</span> People</button>
+        <button class="nav-item" data-view="onboarding"><span class="nav-icon">✓</span> Onboarding</button>
+        <button class="nav-item" data-view="documents"><span class="nav-icon">▤</span> Handbook AI</button>
+        <button class="nav-item" data-view="payments"><span class="nav-icon">＄</span> Payment tracker</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="privacy-card">
+          <span class="privacy-icon">◉</span>
+          <div><strong>Your data stays here</strong><small>Local-first workspace</small></div>
+        </div>
+        <div class="model-indicator"><span class="status-dot"></span> Open-weight AI · Ollama</div>
+      </div>
+    </aside>
+
+    <main class="main-area">
+      <header class="topbar">
+        <div class="breadcrumbs"><span>Workspace</span><span class="crumb-separator">/</span><strong id="current-section">Overview</strong></div>
+        <div class="topbar-right"><span class="local-badge"><span class="status-dot"></span> Private &amp; local</span><span class="avatar">S</span></div>
+      </header>
+      <div id="notice" class="notice" role="status" aria-live="polite" hidden></div>
+
+      <section class="view active" id="view-overview">
+        <div class="page-heading">
+          <div><p class="eyebrow" id="today-label">YOUR TEAM, AT A GLANCE</p><h1>Good work starts with good people.</h1><p class="subtitle">A little less HR busywork. A little more room to build.</p></div>
+          <button class="button button-primary" data-go="people">＋ Add a teammate</button>
+        </div>
+        <div class="stats-grid">
+          <article class="stat-card"><span class="stat-icon lilac">♙</span><span class="stat-label">Team members</span><strong class="stat-value" id="stat-people">0</strong><span class="stat-note">People in your workspace</span></article>
+          <article class="stat-card"><span class="stat-icon mint">✓</span><span class="stat-label">Open onboarding tasks</span><strong class="stat-value" id="stat-tasks">0</strong><span class="stat-note">Ready for a little progress</span></article>
+          <article class="stat-card"><span class="stat-icon peach">＄</span><span class="stat-label">Payments to track</span><strong class="stat-value" id="stat-payments">0</strong><span class="stat-note">Marked as pending</span></article>
+          <article class="stat-card"><span class="stat-icon blue">✧</span><span class="stat-label">Team handbook</span><strong class="stat-value" id="stat-documents">0</strong><span class="stat-note">Private source documents</span></article>
+        </div>
+        <div class="overview-grid">
+          <article class="panel">
+            <div class="panel-heading"><div><p class="eyebrow">THE PEOPLE BEHIND THE WORK</p><h2>Your team</h2></div><button class="text-button" data-go="people">See everyone <span>→</span></button></div>
+            <div id="overview-people" class="compact-list"></div>
+          </article>
+          <article class="panel">
+            <div class="panel-heading"><div><p class="eyebrow">SMALL STEPS, BIG WELCOME</p><h2>Up next</h2></div><button class="text-button" data-go="onboarding">View tasks <span>→</span></button></div>
+            <div id="overview-tasks" class="compact-list"></div>
+          </article>
+        </div>
+        <div class="welcome-banner" id="welcome-banner">
+          <div class="welcome-sparkle">✦</div>
+          <div><strong>New around here?</strong><span>Try the sample workspace to see how Staffside brings your people ops together. It uses fictional data only.</span></div>
+          <button class="button button-light" id="load-demo">Explore with sample data</button>
+        </div>
+      </section>
+
+      <section class="view" id="view-people">
+        <div class="page-heading"><div><p class="eyebrow">PEOPLE, NOT SPREADSHEETS</p><h1>Your people</h1><p class="subtitle">A simple home for the teammates who make it happen.</p></div></div>
+        <div class="content-grid people-grid">
+          <article class="panel form-panel">
+            <div class="panel-heading"><div><p class="eyebrow">GROWING THE TEAM</p><h2>Add a teammate</h2></div><span class="panel-icon">＋</span></div>
+            <form id="staff-form" class="stacked-form">
+              <label>Full name<input name="name" required maxlength="100" placeholder="e.g. Jordan Lee"></label>
+              <label>Work email<input name="email" type="email" required maxlength="254" placeholder="jordan@studio.co"></label>
+              <label>Role<input name="role" required maxlength="100" placeholder="e.g. Product designer"></label>
+              <label>Start date <span class="optional">(optional)</span><input name="startDate" type="date"></label>
+              <button class="button button-primary button-wide" type="submit">Add to your team <span>→</span></button>
+            </form>
+          </article>
+          <article class="panel"><div class="panel-heading"><div><p class="eyebrow">THE CREW</p><h2>Team directory</h2></div><span class="count-badge" id="people-count">0</span></div><div id="people-list" class="people-list"></div></article>
+        </div>
+      </section>
+
+      <section class="view" id="view-onboarding">
+        <div class="page-heading"><div><p class="eyebrow">MAKE THE FIRST DAYS COUNT</p><h1>A warm welcome, made easier.</h1><p class="subtitle">Keep the little things moving so new teammates can find their feet.</p></div></div>
+        <div class="onboarding-toolbar panel">
+          <label class="select-label">WORKING ONBOARDING FOR <select id="onboarding-person"></select></label>
+          <button class="button button-secondary" id="generate-checklist">✧ Draft checklist with AI</button>
+        </div>
+        <div class="content-grid onboarding-grid">
+          <article class="panel form-panel"><div class="panel-heading"><div><p class="eyebrow">THE NEXT SMALL STEP</p><h2>Add a task</h2></div><span class="panel-icon">✓</span></div>
+            <form id="task-form" class="stacked-form">
+              <label>What needs doing?<input name="title" required maxlength="160" placeholder="e.g. Set up a first-week check-in"></label>
+              <label>Target date <span class="optional">(optional)</span><input name="dueDate" type="date"></label>
+              <button class="button button-primary button-wide" type="submit">Add onboarding task <span>→</span></button>
+            </form>
+            <div class="ai-note"><span>✧</span><p>AI checklist drafts use only relevant handbook passages. Review suggestions before adding them.</p></div>
+          </article>
+          <article class="panel task-panel"><div class="panel-heading"><div><p class="eyebrow">A GOOD START, STEP BY STEP</p><h2>Onboarding checklist</h2></div><span class="count-badge" id="task-count">0</span></div><div id="task-list" class="task-list"></div></article>
+        </div>
+      </section>
+
+      <section class="view" id="view-documents">
+        <div class="page-heading"><div><p class="eyebrow">YOUR TEAM'S KNOW-HOW, CLOSE AT HAND</p><h1>Handbook, meet helpful.</h1><p class="subtitle">Ask questions against your own onboarding materials. Answers stay grounded in your docs.</p></div></div>
+        <div class="privacy-callout"><span>◉</span><div><strong>Know what the AI receives</strong><p>When you ask a question or draft a checklist, relevant text from saved documents is sent to the Ollama AI model running on this machine. Don't add documents you don't want processed. Staff profiles and payment records are not sent. Remove a document below to stop it being used in future AI requests. Workspace records are stored unencrypted in a local JSON file.</p></div></div>
+        <div class="content-grid docs-grid">
+          <article class="panel form-panel"><div class="panel-heading"><div><p class="eyebrow">GIVE YOUR AI THE RIGHT CONTEXT</p><h2>Add a handbook doc</h2></div><span class="panel-icon">▤</span></div>
+            <form id="document-form" class="stacked-form">
+              <label>Document title<input name="title" required maxlength="120" placeholder="e.g. First-week guide"></label>
+              <label>Paste text<textarea name="content" required maxlength="30000" rows="7" placeholder="Add your team's onboarding guide, policies, or how-to notes…"></textarea></label>
+              <label class="file-picker">Or choose a plain-text file <input id="document-file" type="file" accept=".txt,.md,text/plain,text/markdown"></label>
+              <button class="button button-primary button-wide" type="submit">Save handbook doc <span>→</span></button>
+            </form>
+            <div class="divider"></div>
+            <div class="panel-heading small-heading"><div><p class="eyebrow">AVAILABLE TO SEARCH</p><h2>Your documents</h2><p class="document-hint">Select × beside a document to remove it from this workspace and future AI searches.</p></div></div>
+            <div id="document-list" class="document-list"></div>
+          </article>
+          <article class="panel assistant-panel"><div class="assistant-head"><div class="assistant-avatar">✧</div><div><strong>Handbook helper</strong><span><i class="status-dot"></i> Local model · your materials</span></div></div>
+            <div class="assistant-intro"><span class="assistant-greeting">Hi there. 👋</span><p>Ask me about something in your team handbook. I'll show you which documents I used—and tell you if I can't find the answer.</p></div>
+            <form id="question-form" class="question-form"><label class="sr-only" for="question">Ask a question about your handbook</label><textarea id="question" name="question" required maxlength="1000" rows="3" placeholder="What should a new teammate do on their first day?"></textarea><div class="question-footer"><span>Answers may need a human check.</span><button class="button button-primary" type="submit">Ask handbook <span>↑</span></button></div></form>
+            <div id="answer" class="answer-area" aria-live="polite"></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="view" id="view-payments">
+        <div class="page-heading"><div><p class="eyebrow">A CLEARER VIEW OF WHAT'S DUE</p><h1>Payment tracker</h1><p class="subtitle">Record payment status in one place. Staffside doesn't send money or store bank details.</p></div></div>
+        <div class="content-grid payment-grid">
+          <article class="panel form-panel"><div class="panel-heading"><div><p class="eyebrow">KEEP THE DETAILS TO A MINIMUM</p><h2>Track a payment</h2></div><span class="panel-icon">＄</span></div>
+            <form id="payment-form" class="stacked-form">
+              <label>Team member<select name="staffId" required id="payment-person"></select></label>
+              <label>Payment period<input name="period" required maxlength="80" placeholder="e.g. October 2026"></label>
+              <div class="form-row"><label>Amount<input name="amount" type="number" min="0.01" max="1000000000" step="0.01" required placeholder="0.00"></label><label>Currency<input name="currency" maxlength="3" value="USD" required placeholder="USD"></label></div>
+              <label>Due date <span class="optional">(optional)</span><input name="dueDate" type="date"></label>
+              <button class="button button-primary button-wide" type="submit">Add payment record <span>→</span></button>
+            </form>
+          </article>
+          <article class="panel"><div class="panel-heading"><div><p class="eyebrow">JUST THE STATUS, NO BANK DETAILS</p><h2>Payment records</h2></div><span class="count-badge" id="payment-count">0</span></div><div id="payment-list" class="payment-list"></div></article>
+        </div>
+        <p class="fine-print">For tracking only. No payroll processing, tax calculations, or money movement.</p>
+      </section>
+
+      <footer class="footer"><span>Made for humans doing a little bit of everything.</span><span>Staffside · local-first people ops</span></footer>
+    </main>
+  </div>
+  <script src="/app.js" defer></script>
+</body>
+</html>
